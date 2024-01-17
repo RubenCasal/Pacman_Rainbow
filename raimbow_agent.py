@@ -23,13 +23,13 @@ class RaimbowAgent():
         #dimensions of actions
         self.action_size = action_size
         #replay memory
-        self.memory = Replay_memory(capacity=5000)
+        self.memory = Replay_memory(capacity=10000)
        
        
         if load_model:
             #Hyperparameters for testing mode
             self.discount_factor=0.99
-            self.learning_rate = 0.001
+            self.learning_rate = 0.0001
             self.epsilon = 0.2
             self.epsilon_decay = 0.99999
             self.epsilon_min = 0.1
@@ -51,7 +51,7 @@ class RaimbowAgent():
             self.epsilon_min = 0.1
             self.batch_size = 128
             self.train_start = 1000
-            self.update_rate = 150
+            self.update_rate = 500
             self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
             self.model_target = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
         
@@ -94,26 +94,9 @@ class RaimbowAgent():
         if step_counter % self.update_rate == 0:
             self.model_target.load_state_dict(self.model.state_dict())
 
-        batch_size = min(self.batch_size,self.memory.size())
-        batch = random.sample(self.memory.buffer,batch_size)
-       
-        states,actions,rewards,dones,next_states = [], [], [], [], []
-
-        for experience in batch:
-            state, action, reward, done, next_state = experience
-            states.append(state)
-            actions.append(action)
-            rewards.append(reward)
-            dones.append(done)
-            next_states.append(next_state)
-      
-        states_tensor = torch.tensor(np.array(states,copy=False)).to(self.device)
-        next_states_tensor = torch.tensor(np.array(next_states,copy=False)).to(self.device)
-        actions_tensor = torch.tensor(np.array(actions,dtype=np.int64)).to(self.device)
-        rewards_tensor =  torch.tensor(rewards).to(self.device)
-        dones_tensor = torch.BoolTensor(dones).to(self.device)
-
-
+        #Get samples
+        states_tensor,actions_tensor,rewards_tensor,next_states_tensor,dones_tensor = self.memory.sample(self.batch_size,self.device)
+        
         q_state_values = self.model(states_tensor).gather(1, actions_tensor.unsqueeze(-1)).squeeze(-1)
 
         with torch.no_grad():

@@ -7,7 +7,7 @@ from gymnasium.spaces import Box
 
 
 def add_env_wrappers(env):
-    env = SkipFramesEnv(env,skip=4)
+    env = SkipFramesEnv(env,skip=16)
     env = ResizeFrame(env)
     env = FrameReshape(env)
     env = FrameStack(env,num_stack=4)

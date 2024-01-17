@@ -57,12 +57,7 @@ class Environment:
             episode_num += 1
            
             
-            #Ploting the training performance
-            plt.ion() #interactive mode (dinamic graph)
-            fig,ax = plt.subplots()
-            ax.set_title("Reward per Episode")
-            ax.set_xlabel("Episode")
-            ax.set_ylabel("Reward")
+           
 
             while not done:
                 dead=False
@@ -96,16 +91,6 @@ class Environment:
                     episodes.append(e)
                     mean_score_value = np.mean(scores[-100:])
                     mean_scores.append(mean_score_value)
-                    ax.clear()
-                    ax.plot(episodes,scores)
-                    ax.plot(episodes,mean_scores,color='r', linestyle='-', linewidth=2, label='Mean Reward')
-
-                    ax.set_title("Reward per Episode")
-                    ax.set_xlabel("Episode")
-                    ax.set_ylabel("Reward")
-                  
-                    plt.savefig("./performance_plots/pacman.png")
-                    plt.close()
                     
                 
 
@@ -113,6 +98,24 @@ class Environment:
             if (e%50==0) and (mode.lower() != 'test'):
                 print("Saving Model")
                 agent.model.save_model(TRAINING_PATH+"/pacmanTorch.pth")
+
+                 #Ploting the training performance
+                plt.ion() #interactive mode (dinamic graph)
+                fig,ax = plt.subplots()
+                ax.set_title("Reward per Episode")
+                ax.set_xlabel("Episode")
+                ax.set_ylabel("Reward")
+                ax.clear()
+                ax.plot(episodes,scores)
+                ax.plot(episodes,mean_scores,color='r', linestyle='-', linewidth=2, label='Mean Reward')
+
+                ax.set_title("Reward per Episode")
+                ax.set_xlabel("Episode")
+                ax.set_ylabel("Reward")
+                
+                plt.savefig("./performance_plots/pacman.png")
+                plt.close()
+                    
 
     def test(self):
        
