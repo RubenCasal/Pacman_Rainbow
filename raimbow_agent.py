@@ -47,7 +47,7 @@ class RaimbowAgent():
             self.discount_factor=0.99
             self.learning_rate = 0.0001
             self.epsilon = 1.0
-            self.epsilon_decay = 0.9999995
+            self.epsilon_decay = 0.99999
             self.epsilon_min = 0.1
             self.batch_size = 128
             self.train_start = 1000

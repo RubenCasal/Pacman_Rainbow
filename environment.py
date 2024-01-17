@@ -73,13 +73,8 @@ class Environment:
                
                   
                     next_state,reward,done,truncated,info, = env.step(action)
-                    
-                 
-                  
-                    #Normalization of pixels
 
-                  
-                    
+      
                     agent.append_sample(state,action,reward,next_state,done)
                     
                     agent.train(step_counter)
@@ -87,18 +82,12 @@ class Environment:
                     
                     state = next_state
                     score += reward
-                    
-                    
                     dead = info['lives']<lives
                     lives = info['lives']
 
                     #punish when pacman die
                     reward = reward if not dead else -100
-
-               
-
                 if done:
-                    print("The game is over")
                     print("Episode: "+ str(episode_num)+" Final Score: "+ str(score))
                     print("Step Counter: "+ str(step_counter)+ " Epsilon: " + str(agent.epsilon))
 
@@ -117,7 +106,7 @@ class Environment:
                   
                     plt.savefig("./performance_plots/pacman.png")
                     plt.close()
-                    plt.pause(0.001)
+                    
                 
 
             

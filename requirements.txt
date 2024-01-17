@@ -1,3 +1,8 @@
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-pip install gymnasium[atari]
-pip install gymnasium[accept-rom-license]
+torch==2.1.2+cu118 
+torchvision==0.16.2+cu118
+torchaudio==2.1.2+cu118
+gymnasium[atari]
+gymnasium[accept-rom-license]
+numpy==1.24.4
+opencv-python==4.9.0
