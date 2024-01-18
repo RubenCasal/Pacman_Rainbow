@@ -4,7 +4,7 @@ import torch
 from neural_network import Neural_Network
 # Crea el entorno Pac-Man
 ENV_NAME = 'ALE/MsPacman-v5'
-env = gym.make(ENV_NAME, render_mode='human',obs_type="grayscale")
+env = gym.make(ENV_NAME, render_mode='human',obs_type="grayscale",frameskip=1)
 
 from utils import  add_env_wrappers
 
@@ -14,7 +14,7 @@ env = add_env_wrappers(env)
 learning_rate = 0.0001
 state_size = env.observation_space.shape
 model = Neural_Network(env.observation_space.shape,env.action_space.n,learning_rate).to(device)
-model.load_model("./results/pacmanTorch_4intento.pth")
+model.load_model("./results/pacmanTorch_6intento.pth")
 
 action_size = env.action_space.n
 
