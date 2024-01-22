@@ -26,41 +26,27 @@ class RaimbowAgent():
         self.memory = Replay_memory(capacity=10000)
        
        
-        if load_model:
-            #Hyperparameters for testing mode
-            self.discount_factor=0.99
-            self.learning_rate = 0.0001
-            self.epsilon = 0.2
-            self.epsilon_decay = 0.99999
-            self.epsilon_min = 0.1
-            self.batch_size = 128
-            self.train_start = 1000
-          
-            self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate)
-            self.model.load_model("./results/pacman_prueba1dqn.h5")
-           
-
-        else:
+       
         
-            #Hyperparemeters for training mode                      
-            print("Training Mode")
-            self.discount_factor=0.99
-            self.learning_rate = 1e-4
-            self.epsilon = 1.0
-            self.epsilon_decay = 0.99999
-            self.epsilon_min = 0.01
-            self.batch_size = 128
-            self.train_start = 10000
-            self.update_rate = 1000
-            self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
-            self.model_target = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
-        
+        #Hyperparemeters for training mode                      
+        print("Training Mode")
+        self.discount_factor=0.99
+        self.learning_rate = 1e-4
+        self.epsilon = 1.0
+        self.epsilon_decay = 0.999993
+        self.epsilon_min = 0.05
+        self.batch_size = 128
+        self.train_start = 10000
+        self.update_rate = 1000
+        self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
+        self.model_target = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
+    
         
         #optimizer
         self.optimizer = optim.Adam(self.model.parameters(),lr=self.learning_rate)
            
 
- 
+    #mirar esta función tanto el epsilon como lo que devuelve la prediccion del modelo
     def get_action(self, state):
        
         if np.random.rand() <= self.epsilon:

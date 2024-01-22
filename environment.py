@@ -4,7 +4,7 @@ import numpy as np
 from raimbow_agent import RaimbowAgent
 import matplotlib.pyplot as plt
 
-from utils import  add_env_wrappers
+from utils import  add_env_wrappers, skip_initial_frames, transform_reward
 
 
 EPISODES = 2000000
@@ -27,11 +27,11 @@ class Environment:
 
         print("Atari Game: "+ ENV_NAME)
         
+      
         state_size = self.env.observation_space.shape
       
         action_size = self.env.action_space.n
-        print("aaaaaa")
-        print(state_size)
+       
 
         if mode.lower()== 'test':
             load_model= True
@@ -55,33 +55,36 @@ class Environment:
            
             lives = 3
             episode_num += 1
-           
-            
+
+            #Skipping the initial part when pacman can´t move
+            skip_initial_frames(env)
            
 
             while not done:
                 dead=False
-               
+
                 while not dead:
-                   
+                    
                     action = agent.get_action(state)
-               
+                  
                   
                     next_state,reward,done,truncated,info, = env.step(action)
-
-      
+                   
+                    score += reward
+                    #reward = transform_reward(reward)
+                    
+                   
                     agent.append_sample(state,action,reward,next_state,done)
                     
                     agent.train(step_counter)
                     step_counter +=1
-                    
-                    state = next_state
-                    score += reward
                     dead = info['lives']<lives
                     lives = info['lives']
+                    state = next_state
+                   
+                    
 
-                    #punish when pacman die
-                    reward = reward if not dead else -100
+                    
                 if done:
                     print("Episode: "+ str(episode_num)+" Final Score: "+ str(score))
                     print("Step Counter: "+ str(step_counter)+ " Epsilon: " + str(agent.epsilon))

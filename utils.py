@@ -3,7 +3,7 @@ import gymnasium as gym
 import numpy as np
 from collections import deque
 from gymnasium.spaces import Box
-
+from math import log
 
 
 def add_env_wrappers(env):
@@ -111,3 +111,16 @@ class NormalizeFrame(gym.ObservationWrapper):
     def observation(self,observation):
         return np.array(observation).astype(np.float32) / 255.0
 
+#function to normalize and transform rewards
+def transform_reward(reward):
+
+    if reward > 100:
+        reward = reward / 10
+    
+   
+  
+    return reward
+
+def skip_initial_frames(env):
+    for i in range(16):
+         next_state,reward,done,truncated,info, = env.step(0)
