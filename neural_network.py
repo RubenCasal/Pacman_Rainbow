@@ -2,6 +2,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
+import torch.nn.functional as F
+from torch.distributions import Categorical
+from NoisyNetwork import NoisyLinear
 
 class Neural_Network(nn.Module):
     def __init__(self, input_size, output_size, learning_rate):
@@ -20,9 +23,18 @@ class Neural_Network(nn.Module):
     
         self.linear_layers = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(convolutional_output, 512), # ajusta las dimensiones según el tamaño de salida de tu última capa convolucional
+            nn.Linear(convolutional_output, 512),
+           
+          
+         
+        )
+        self.actor_layer = nn.Sequential(
             nn.ReLU(),
             nn.Linear(512, output_size)
+        )
+        self.critic_layer = nn.Sequential(
+            nn.ReLU(),
+            nn.Linear(512,1)
         )
 
 
@@ -39,8 +51,10 @@ class Neural_Network(nn.Module):
         x = self.convolutional_layers(x).view(x.size()[0],-1)
      
         x = self.linear_layers(x)
- 
-        return x
+        actor = self.actor_layer(x)
+        value = self.critic_layer(x)
+        distribution = Categorical(F.softmax(actor,dim=-1))
+        return distribution,value
 
   
 

@@ -66,20 +66,25 @@ class Environment:
                 while not dead:
                     
                     action = agent.get_action(state)
+                 
+                    
+
+                    
                   
-                  
+                   
                     next_state,reward,done,truncated,info, = env.step(action)
                    
                     score += reward
-                    #reward = transform_reward(reward)
+                    dead = info['lives']<lives
+                    lives = info['lives']
+                    reward = transform_reward(reward,dead)
                     
                    
                     agent.append_sample(state,action,reward,next_state,done)
                     
                     agent.train(step_counter)
                     step_counter +=1
-                    dead = info['lives']<lives
-                    lives = info['lives']
+                    
                     state = next_state
                    
                     

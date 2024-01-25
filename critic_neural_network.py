@@ -3,9 +3,9 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 
-class Neural_Network(nn.Module):
+class Critic_Neural_Network(nn.Module):
     def __init__(self, input_size):
-        super(Neural_Network, self).__init__()
+        super(Critic_Neural_Network, self).__init__()
 
         # Definición de las capas
         self.convolutional_layers = nn.Sequential(

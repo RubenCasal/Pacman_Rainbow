@@ -112,11 +112,12 @@ class NormalizeFrame(gym.ObservationWrapper):
         return np.array(observation).astype(np.float32) / 255.0
 
 #function to normalize and transform rewards
-def transform_reward(reward):
-
-    if reward > 100:
+def transform_reward(reward,dead):
+    if dead:
+        reward = -log(20,1000)
+    if reward > 200:
         reward = reward / 10
-    
+    return log(reward, 1000) if reward > 0 else reward
    
   
     return reward

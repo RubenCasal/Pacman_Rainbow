@@ -14,7 +14,7 @@ env = add_env_wrappers(env)
 learning_rate = 0.0001
 state_size = env.observation_space.shape
 model = Neural_Network(env.observation_space.shape,env.action_space.n,learning_rate).to(device)
-model.load_model("./results/pacmanTorch_9intento_ddqn_005eps.pth")
+model.load_model("./results/pacmanTorch.pth")
 
 action_size = env.action_space.n
 
@@ -39,8 +39,12 @@ for e in range(EPISODES):
                    
                     
                     state_tensor = torch.tensor(state).unsqueeze(0).to(device)
-                    q_value =model(state_tensor)
-                    action=  np.argmax(q_value[0].cpu().detach().numpy())
+                    prob,_ = model(state_tensor)
+            
+            
+         
+                    action = prob.sample().item()
+           
                     next_state,reward,done,truncated,info, = env.step(action)  # Aplica la acción
 
                     state = next_state
