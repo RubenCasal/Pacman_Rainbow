@@ -13,9 +13,9 @@ class Prioritized_Replay:
         self.buffer = np.empty(self.capacity, dtype=[("priority", np.float32), ("experience", Experience)])
        
     #add experience 
-    def add_experience(self,state,action,reward,done,next_state):
+    def add_experience(self,exp):
         priority = 1.0 if self.size()==0 else self.buffer["priority"].max()
-        exp = Experience(state,action,reward,done,next_state,priority)
+        
         if self.size() == self.capacity:
             if priority>self.buffer["priority"].min():
                     idx = self.buffer["priority"].argmin()
@@ -39,7 +39,7 @@ class Prioritized_Replay:
 
         batch_size = min(batch_size,self.size())
        
-        #priorities = self.buffer[:self.size()]["priority"]
+        
         priorities = self.buffer[:self.size()]["priority"]
       
         n_priorities = priorities/ priorities.sum()
@@ -60,7 +60,12 @@ class Prioritized_Replay:
   
         return (idxs,states, actions, rewards, next_states, dones)
     
-    def update_priorityies(self,idxs,priorities):
-         
+    def update_priorities(self,idxs,priorities):
+        priorities = np.maximum(priorities, 0) 
        
-         self.buffer["priority"][idxs] = priorities
+        total = np.sum(priorities)
+        if total > 0:
+            n_priorities = priorities / total
+        else:
+            n_priorities = np.ones_like(priorities) / len(priorities)
+        self.buffer["priority"][idxs] = n_priorities

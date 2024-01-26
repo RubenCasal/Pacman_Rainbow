@@ -23,18 +23,18 @@ class Neural_Network(nn.Module):
     
         self.linear_layers = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(convolutional_output, 512),
+            NoisyLinear(convolutional_output, 512),
            
           
          
         )
         self.actor_layer = nn.Sequential(
             nn.ReLU(),
-            nn.Linear(512, output_size)
+            NoisyLinear(512, output_size)
         )
         self.critic_layer = nn.Sequential(
             nn.ReLU(),
-            nn.Linear(512,1)
+            NoisyLinear(512,1)
         )
 
 
