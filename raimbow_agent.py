@@ -3,6 +3,7 @@ import gymnasium as gym
 from collections import deque
 import random
 import numpy as np
+from Prioritized_Buffer_Replay import Prioritized_Buffer_Replay
 from Prioritized_replay import Prioritized_Replay
 
 from critic_neural_network import Critic_Neural_Network
@@ -28,7 +29,7 @@ class RaimbowAgent():
         #dimensions of actions
         self.action_size = action_size
         #replay memory
-        self.memory = Replay_memory(capacity=15000)
+        self.memory = Prioritized_Buffer_Replay(capacity=20000)
        
        
        
@@ -38,10 +39,10 @@ class RaimbowAgent():
         self.discount_factor=0.99
         self.learning_rate = 0.0001
         self.epsilon = 1.0
-        self.epsilon_decay = 0.99997
+        self.epsilon_decay = 0.9995
         self.epsilon_min = 0.1
         self.batch_size = 128
-        self.train_start = 15000
+        self.train_start = 20000
         self.update_rate = 1000
         self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
         self.model_target = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
@@ -55,24 +56,41 @@ class RaimbowAgent():
 
     def get_action(self, state):
        
-          
-        state_tensor = torch.tensor(state).unsqueeze(0).to(self.device)
-        prob,_ = self.model(state_tensor)
+        if np.random.rand() <= self.epsilon:
+            return random.randrange(self.action_size)
+        else:
+            
         
-    
+            state_tensor = torch.tensor(state).unsqueeze(0).to(self.device)
+            prob,_ = self.model(state_tensor)
+        
+        
         
         action = prob.sample().item()
-        
-
+           
+   
         
         return  action
     
     #save (state,action,reward,next_state,done) in replay memory
     def append_sample(self,state,action,reward,next_state,done):
-        
+        state_tensor = torch.tensor(state).unsqueeze(0).to(self.device)
+        next_state_tensor = torch.tensor(next_state).unsqueeze(0).to(self.device)
+        dist,value = self.model(state_tensor)
        
+        
+
+        with torch.no_grad():
+            _,next_values = self.model(next_state_tensor)
+            next_values[done] = 0.0
+            next_values  = next_values.detach()
+            error = reward + self.discount_factor *next_values
+            
+       
+        advantage = error-value
+        advantage.detach().cpu().numpy()
         exp = Experience(state,action,reward,done,next_state)
-        self.memory.add_experience(exp)
+        self.memory.add(advantage,exp)
         if self.epsilon>self.epsilon_min and self.memory.size()==self.train_start:
            
             self.epsilon*=self.epsilon_decay
@@ -86,10 +104,10 @@ class RaimbowAgent():
         
        
         #Get samples
-        states_tensor,actions_tensor,rewards_tensor,next_states_tensor,dones_tensor = self.memory.sample(self.batch_size,self.device)
+        idxs,states_tensor,actions_tensor,rewards_tensor,next_states_tensor,dones_tensor,weights = self.memory.sample()
         
 
-       
+        
         dist,values = self.model(states_tensor)
         values = values.squeeze()
         log_probs = dist.log_prob(actions_tensor)
@@ -106,17 +124,21 @@ class RaimbowAgent():
     
         actor_loss = -(log_probs * advantage.detach())
         actor_loss_mean = actor_loss.mean()
-        critic_loss =  F.mse_loss(values, error)
+        critic_loss = advantage**2
         
     
-        total_loss = actor_loss_mean + critic_loss
+        total_loss = (actor_loss_mean + critic_loss)*(torch.FloatTensor(weights).to(self.device))
+        total_loss_mean = total_loss.mean()
       
-      
-        #probabilities = actor_loss.detach().cpu().numpy()
-        #self.memory.update_priorities(idxs,probabilities)
+        probabilities = total_loss.detach().cpu().numpy()
+        for i in range(self.batch_size):
+            idx = idxs[i]
+            self.memory.update(idx,probabilities[i])
 
+        
+        
         self.optimizer.zero_grad()
-        total_loss.backward()
+        total_loss_mean.backward()
         self.optimizer.step()
 
      

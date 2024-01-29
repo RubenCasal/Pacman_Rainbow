@@ -10,7 +10,7 @@ class NoisyLinear(nn.Module):
     self.in_features = in_features
     self.out_features = out_features
     self.std_init = std_init
-    self.training = False
+  
   
     
     self.weight_mu = nn.Parameter(torch.empty(out_features, in_features))

@@ -11,6 +11,7 @@ class Prioritized_Replay:
         #self.buffer = deque(maxlen=capacity)
         self.len_buffer = 0
         self.buffer = np.empty(self.capacity, dtype=[("priority", np.float32), ("experience", Experience)])
+        self.alpha=0.01
        
     #add experience 
     def add_experience(self,exp):
@@ -42,7 +43,8 @@ class Prioritized_Replay:
         
         priorities = self.buffer[:self.size()]["priority"]
       
-        n_priorities = priorities/ priorities.sum()
+        n_priorities = priorities**self.alpha / np.sum(priorities**self.alpha)
+
         idxs = np.random.choice(np.arange(priorities.size),
                                          size=batch_size,
                                          replace=True,
@@ -57,6 +59,7 @@ class Prioritized_Replay:
         actions = torch.tensor(np.array([e.action for e in experiences if e is not None],dtype=np.int64)).to(device)
         rewards=  torch.tensor([e.reward for e in experiences if e is not None]).to(device)
         dones = torch.BoolTensor([e.done for e in experiences if e is not None]).to(device)
+        
   
         return (idxs,states, actions, rewards, next_states, dones)
     
