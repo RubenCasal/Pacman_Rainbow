@@ -14,7 +14,7 @@ env = add_env_wrappers(env)
 learning_rate = 0.0001
 state_size = env.observation_space.shape
 model = Neural_Network(env.observation_space.shape,env.action_space.n,learning_rate).to(device)
-model.load_model("./results/pacmanTorch_18_rainbow.pth")
+model.load_model("./results/pacmanTorch_19_rainbow.pth")
 
 action_size = env.action_space.n
 

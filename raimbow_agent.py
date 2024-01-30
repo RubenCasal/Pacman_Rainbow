@@ -29,7 +29,7 @@ class RaimbowAgent():
         #dimensions of actions
         self.action_size = action_size
         #replay memory
-        self.memory = Prioritized_Buffer_Replay(capacity=20000)
+        self.memory = Prioritized_Buffer_Replay(capacity=15000)
        
        
        
@@ -42,7 +42,7 @@ class RaimbowAgent():
         self.epsilon_decay = 0.9995
         self.epsilon_min = 0.1
         self.batch_size = 128
-        self.train_start = 20000
+        self.train_start = 15000
         self.update_rate = 1000
         self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
         self.model_target = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
