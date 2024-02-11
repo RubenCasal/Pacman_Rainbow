@@ -14,13 +14,18 @@ EPISODES_TEST = 100
 TRAINING_PATH = './results'
 
 class Environment:
-    def __init__(self,mode,device):
+    def __init__(self,mode,device,model_path):
         if mode=='train':
             self.env = gym.make(ENV_NAME,obs_type="grayscale",frameskip=1,full_action_space=False)
+            self.load_model = False
+            self.model_path = None
          
         else:
             self.env = gym.make(ENV_NAME,obs_type="grayscale",render_mode='human',frameskip=1,full_action_space=False)
+            self.load_model= True
+            self.model_path = model_path
 
+        #Add wrappers
         self.env = add_env_wrappers(self.env)
     
         self.env.reset()
@@ -33,13 +38,10 @@ class Environment:
         action_size = self.env.action_space.n
        
 
-        if mode.lower()== 'test':
-            load_model= True
-        else:
-            load_model = False
+          
       
        
-        self.agent = RaimbowAgent(state_size,action_size,device,load_model)
+        self.agent = RaimbowAgent(state_size,action_size,device,self.model_path,self.load_model)
 
     def train(self,mode):
         print("Start trainning")
@@ -65,24 +67,21 @@ class Environment:
 
                 while not dead:
                     
+                    #Get action from de rainbow_agent
                     action = agent.get_action(state)
                  
-                    
 
-                    
-                  
-                   
                     next_state,reward,done,truncated,info, = env.step(action)
-                   
-                    score += reward
-                    dead = info['lives']<lives
-                    lives = info['lives']
-                    reward = transform_reward(reward,dead)
+                    if not self.load_model:
+                        score += reward
+                        dead = info['lives']<lives
+                        lives = info['lives']
+                        reward = transform_reward(reward,dead)
+                        
                     
-                   
-                    agent.append_sample(state,action,reward,next_state,done)
-                    
-                    agent.train(step_counter)
+                        agent.append_sample(state,action,reward,next_state,done)
+                        
+                        agent.train(step_counter)
                     step_counter +=1
                    
                     state = next_state
@@ -104,10 +103,12 @@ class Environment:
 
             
             if (e%50==0) and (mode.lower() != 'test'):
-                print("Saving Model")
-                agent.model.save_model(TRAINING_PATH+"/pacmanTorch.pth")
+                if not self.load_model:
+                    print("Saving Model")
 
-                 #Ploting the training performance
+                    agent.model.save_model(TRAINING_PATH+"/pacmanTorch.pth")
+
+                #Ploting the training performance
                 plt.ion() #interactive mode (dinamic graph)
                 fig,ax = plt.subplots()
                 ax.set_title("Reward per Episode")

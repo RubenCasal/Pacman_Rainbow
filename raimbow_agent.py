@@ -16,7 +16,7 @@ import torch.nn.functional as F
 Experience = collections.namedtuple("Experience",field_names=['state','action','reward','done','next_state'])
 
 class RaimbowAgent():
-    def __init__(self,state_size,action_size, device, load_model=False):
+    def __init__(self,state_size,action_size, device,  model_path, load_model=False):
         #dimensions of observations
         self.state_size = state_size
       
@@ -30,28 +30,35 @@ class RaimbowAgent():
         self.action_size = action_size
         #replay memory
         self.memory = Prioritized_Buffer_Replay(capacity=15000)
-       
-       
-       
+        if load_model:
+            print("Testing Mode")
+            self.epsilon = 0.0
+            self.learning_rate = 0.0001
+            self.epsilon_decay = 0.9995
+            self.epsilon_min = 0.1
+            self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
+            self.model.load_model(model_path)
+
+
+        else:
+            #Hyperparemeters for training mode                      
+            print("Training Mode")
+            self.discount_factor=0.99
+            self.learning_rate = 0.0001
+            self.epsilon = 1.0
+            self.epsilon_decay = 0.9995
+            self.epsilon_min = 0.1
+            self.batch_size = 128
+            self.train_start = 15000
+            self.update_rate = 1000
+            self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
+            self.model_target = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
+            self.critic = Critic_Neural_Network(self.state_size).to(device)
         
-        #Hyperparemeters for training mode                      
-        print("Training Mode")
-        self.discount_factor=0.99
-        self.learning_rate = 0.0001
-        self.epsilon = 1.0
-        self.epsilon_decay = 0.9995
-        self.epsilon_min = 0.1
-        self.batch_size = 128
-        self.train_start = 15000
-        self.update_rate = 1000
-        self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
-        self.model_target = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
-        self.critic = Critic_Neural_Network(self.state_size).to(device)
-    
-        
-        #optimizer
-        self.optimizer = optim.Adam(self.model.parameters(),lr=self.learning_rate)
-        self.critic_optimizer = optim.Adam(self.critic.parameters(),lr=self.learning_rate)
+            
+            #optimizer
+            self.optimizer = optim.Adam(self.model.parameters(),lr=self.learning_rate)
+            self.critic_optimizer = optim.Adam(self.critic.parameters(),lr=self.learning_rate)
            
 
     def get_action(self, state):
