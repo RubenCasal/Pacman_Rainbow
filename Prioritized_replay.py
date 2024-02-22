@@ -14,9 +14,10 @@ class Prioritized_Replay:
         self.alpha=0.01
        
     #add experience 
-    def add_experience(self,exp):
-        priority = 1.0 if self.size()==0 else self.buffer["priority"].max()
-        
+    def add(self,exp,advantage):
+        if isinstance(advantage, torch.Tensor):
+            priority = advantage.detach().cpu().numpy()
+            priority = np.abs(priority) 
         if self.size() == self.capacity:
             if priority>self.buffer["priority"].min():
                     idx = self.buffer["priority"].argmin()
@@ -24,7 +25,9 @@ class Prioritized_Replay:
             else:
                     pass
         else:
+             
                 self.buffer[self.size()] = (priority, exp)  
+               
                 self.len_buffer +=1     
 
 
@@ -64,11 +67,18 @@ class Prioritized_Replay:
         return (idxs,states, actions, rewards, next_states, dones)
     
     def update_priorities(self,idxs,priorities):
-        priorities = np.maximum(priorities, 0) 
-       
-        total = np.sum(priorities)
+      
+
+     
+        
+        priorities = np.abs(priorities) ** self.alpha
+        
+        total = np.sum(priorities)** self.alpha
         if total > 0:
             n_priorities = priorities / total
         else:
+   
+          
             n_priorities = np.ones_like(priorities) / len(priorities)
+        
         self.buffer["priority"][idxs] = n_priorities

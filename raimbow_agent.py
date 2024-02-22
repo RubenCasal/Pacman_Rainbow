@@ -29,7 +29,7 @@ class RaimbowAgent():
         #dimensions of actions
         self.action_size = action_size
         #replay memory
-        self.memory = Prioritized_Buffer_Replay(capacity=15000)
+        self.memory = Prioritized_Replay(capacity=15000)
         if load_model:
             print("Testing Mode")
             self.epsilon = 0.0
@@ -97,7 +97,7 @@ class RaimbowAgent():
         advantage = error-value
         advantage.detach().cpu().numpy()
         exp = Experience(state,action,reward,done,next_state)
-        self.memory.add(advantage,exp)
+        self.memory.add(exp,advantage)
         if self.epsilon>self.epsilon_min and self.memory.size()==self.train_start:
            
             self.epsilon*=self.epsilon_decay
@@ -111,7 +111,7 @@ class RaimbowAgent():
         
        
         #Get samples
-        idxs,states_tensor,actions_tensor,rewards_tensor,next_states_tensor,dones_tensor,weights = self.memory.sample()
+        idxs,states_tensor,actions_tensor,rewards_tensor,next_states_tensor,dones_tensor = self.memory.sample(self.batch_size,self.device)
         
 
         
@@ -134,13 +134,12 @@ class RaimbowAgent():
         critic_loss = advantage**2
         
     
-        total_loss = (actor_loss_mean + critic_loss)*(torch.FloatTensor(weights).to(self.device))
+        total_loss = (actor_loss_mean + critic_loss)
         total_loss_mean = total_loss.mean()
       
         probabilities = total_loss.detach().cpu().numpy()
-        for i in range(self.batch_size):
-            idx = idxs[i]
-            self.memory.update(idx,probabilities[i])
+       
+        self.memory.update_priorities(idxs,probabilities)
 
         
         
