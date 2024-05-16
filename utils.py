@@ -8,6 +8,7 @@ from math import log
 
 def add_env_wrappers(env):
     env = SkipFramesEnv(env,skip=16)
+    env = ReduceActionSpaceEnv(env) 
     env = ResizeFrame(env)
     env = FrameReshape(env)
     env = FrameStack(env,num_stack=4)
@@ -60,7 +61,14 @@ class ResizeFrame(gym.ObservationWrapper):
     
     def observation(self,obs):
         return ResizeFrame.process(obs)
-    
+class ReduceActionSpaceEnv(gym.ActionWrapper):
+    def __init__(self, env):
+        super().__init__(env)
+        self.action_space = gym.spaces.Discrete(4)
+        self.action_map = {0: 1, 1: 4, 2: 2, 3: 3}
+
+    def action(self, action):
+        return self.action_map[action]    
 class FrameStack(gym.ObservationWrapper,gym.utils.RecordConstructorArgs):
     def __init__(self,env,num_stack):
         super().__init__(env)
@@ -112,19 +120,19 @@ class NormalizeFrame(gym.ObservationWrapper):
         return np.array(observation).astype(np.float32) / 255.0
 
 #function to normalize and transform rewards
-def transform_reward(reward,dead):
+def transform_reward(reward,dead,episode_step):
     if dead:
         reward = -log(20,1000)
+    if episode_step>150 and reward==0:
+        reward=10
         '''
+    
     if reward > 10 and reward <100:
         reward = 10
     if reward > 200:
         reward = reward / 10
     '''
     return log(reward, 1000) if reward > 0 else reward
-   
-  
-    return reward
 
 def skip_initial_frames(env):
     for i in range(16):

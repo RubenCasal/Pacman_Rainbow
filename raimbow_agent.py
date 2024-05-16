@@ -29,6 +29,8 @@ class RaimbowAgent():
         #dimensions of actions
         self.action_size = action_size
         #replay memory
+        self.n_step = 2
+        self.n_step_buffer = deque(maxlen=self.n_step)
         self.memory = Prioritized_Replay(capacity=15000)
         if load_model:
             print("Testing Mode")
@@ -47,7 +49,7 @@ class RaimbowAgent():
             self.learning_rate = 0.0001
             self.epsilon = 1.0
             self.epsilon_decay = 0.9995
-            self.epsilon_min = 0.1
+            self.epsilon_min = 0.01
             self.batch_size = 128
             self.train_start = 15000
             self.update_rate = 1000
@@ -80,9 +82,24 @@ class RaimbowAgent():
         return  action
     
     #save (state,action,reward,next_state,done) in replay memory
+    def calculate_n_step_info(self):
+        reward_n_step = 0
+        for idx, (_, _, reward, _, _) in enumerate(self.n_step_buffer):
+            reward_n_step += (self.discount_factor ** idx) * reward
+        _, _, _, next_state_n_step, done_n_step = self.n_step_buffer[-1]
+
+        return reward_n_step, next_state_n_step, done_n_step
     def append_sample(self,state,action,reward,next_state,done):
-        state_tensor = torch.tensor(state).unsqueeze(0).to(self.device)
-        next_state_tensor = torch.tensor(next_state).unsqueeze(0).to(self.device)
+        self.n_step_buffer.append((state,action,reward,next_state,done))
+
+        if len(self.n_step_buffer)< self.n_step and not done:
+            return
+        
+        reward_n_step, next_state_n_step, done_n_step = self.calculate_n_step_info()
+        state_n_step, action_n_step = self.n_step_buffer[0][:2]
+        exp = Experience(state_n_step,action_n_step,reward_n_step,done_n_step,next_state_n_step)
+        state_tensor = torch.tensor(state_n_step).unsqueeze(0).to(self.device)
+        next_state_tensor = torch.tensor(next_state_n_step).unsqueeze(0).to(self.device)
         dist,value = self.model(state_tensor)
        
         
@@ -96,7 +113,7 @@ class RaimbowAgent():
        
         advantage = error-value
         advantage.detach().cpu().numpy()
-        exp = Experience(state,action,reward,done,next_state)
+        exp = Experience(state_n_step,action_n_step,reward_n_step,done_n_step,next_state_n_step)
         self.memory.add(exp,advantage)
         if self.epsilon>self.epsilon_min and self.memory.size()==self.train_start:
            

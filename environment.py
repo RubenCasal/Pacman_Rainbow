@@ -7,14 +7,14 @@ import matplotlib.pyplot as plt
 from utils import  add_env_wrappers, skip_initial_frames, transform_reward
 
 
-EPISODES = 2000000
+EPISODES = 4501
 ENV_NAME = 'ALE/MsPacman-v5'
 EPISODES_TEST = 100
 
-TRAINING_PATH = './results'
+TRAINING_PATH = './experimentation_models'
 
 class Environment:
-    def __init__(self,mode,device,model_path):
+    def __init__(self,mode,device,model_path,graph_path,save_model_path):
         if mode=='train':
             self.env = gym.make(ENV_NAME,obs_type="grayscale",frameskip=1,full_action_space=False)
             self.load_model = False
@@ -27,7 +27,8 @@ class Environment:
 
         #Add wrappers
         self.env = add_env_wrappers(self.env)
-    
+        self.graph_path = graph_path
+        self.save_model_path = save_model_path
         self.env.reset()
 
         print("Atari Game: "+ ENV_NAME)
@@ -49,12 +50,14 @@ class Environment:
         agent = self.agent
         scores, episodes,mean_scores = [], [], []
         episode_num = 0
+       
         step_counter = 0
+        max_mean_score =0
         for e in range(EPISODES):
             done = False
             score = 0
             state = env.reset()[0]
-           
+            episode_count_step =0
             lives = 3
             episode_num += 1
 
@@ -76,12 +79,15 @@ class Environment:
                         score += reward
                         dead = info['lives']<lives
                         lives = info['lives']
-                        reward = transform_reward(reward,dead)
                         
+                        reward = transform_reward(reward,dead, episode_count_step)
+                       
                     
                         agent.append_sample(state,action,reward,next_state,done)
                         
                         agent.train(step_counter)
+                    episode_count_step +=1
+                
                     step_counter +=1
                    
                     state = next_state
@@ -103,10 +109,13 @@ class Environment:
 
             
             if (e%50==0) and (mode.lower() != 'test'):
-                if not self.load_model:
+                
+              
+                if not self.load_model and  (mean_score_value>= max_mean_score) :
                     print("Saving Model")
+                    max_mean_score = mean_score_value
 
-                    agent.model.save_model(TRAINING_PATH+"/pacmanTorch.pth")
+                    agent.model.save_model(self.save_model_path)
 
                 #Ploting the training performance
                 plt.ion() #interactive mode (dinamic graph)
@@ -122,7 +131,7 @@ class Environment:
                 ax.set_xlabel("Episode")
                 ax.set_ylabel("Reward")
                 
-                plt.savefig("./performance_plots/pacman.png")
+                plt.savefig(self.graph_path)
                 plt.close()
                     
 
@@ -133,7 +142,7 @@ class Environment:
 
     
         agent = self.agent
-        
+       
         episode_num = 0
         for e in range(EPISODES):
             done = False
@@ -147,7 +156,7 @@ class Environment:
 
             while not done:
                 dead=False
-            
+                step_counter = 0
                 while not dead:
                     
                     action = agent.get_action(state)
@@ -157,7 +166,7 @@ class Environment:
                     next_state = next_state
                     
                 
-                    agent.append_sample(state,action,reward,next_state,done)
+                    #agent.append_sample(state,action,reward,next_state,done)
                     
 
 
@@ -167,9 +176,10 @@ class Environment:
                     
                     dead = info['lives']<lives
                     lives = info['lives']
-
+                    print(step_counter)
+                    step_counter +=1
                     #punish when pacman die
-                    reward = reward if not dead else -100
+                    #reward = reward if not dead else -100
 
                 attempt_number +=1
                 print("Attempt_number: "+str(attempt_number)+" Score: "+str(score))
