@@ -2,7 +2,7 @@ from environment import Environment
 import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-MODEL_PATH = './experimentation_models/pacmanTorch.pth'
+MODEL_PATH = './experimentation_models/pacmanTorch_normalized_rewards2.pth'
 SAVE_MODEL_PATH = './experimentation_models/pacmanTorch.pth'
 MODE = 'test'
 GRAPH_PATH = './experimentation/pacman.png'

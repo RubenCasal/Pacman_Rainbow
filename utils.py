@@ -122,9 +122,9 @@ class NormalizeFrame(gym.ObservationWrapper):
 #function to normalize and transform rewards
 def transform_reward(reward,dead,episode_step):
     if dead:
-        reward = -log(20,1000)
-    if episode_step>150 and reward==0:
-        reward=10
+        reward = -log(100, 1000)
+    if reward>15:
+        reward = 15
         '''
     
     if reward > 10 and reward <100:
@@ -133,6 +133,7 @@ def transform_reward(reward,dead,episode_step):
         reward = reward / 10
     '''
     return log(reward, 1000) if reward > 0 else reward
+    #return reward
 
 def skip_initial_frames(env):
     for i in range(16):
