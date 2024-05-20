@@ -47,6 +47,18 @@ Ejecuta el script desde la terminal con el siguiente comando:
 ```bash
 python main.py
 ```
-  
+## Resultados
+El rendimiento del modelo final alcanzado se puede ver en la siguiente gráfica, donde las líneas azules representan la puntuación alcanzada por el agente en un episodio determinado y la línea roja representa la media móvil de los últimos 100 episodios.
+**insertar gráfica**
+Tras diversas experimentaciones variando los distintos parámetros, hiperparámetros y arquitecturas del modelo, hemos identificado las configuraciones que ofrecen el mejor rendimiento para el algoritmo Rainbow DQN aplicado en el juego Ms Pacman:
+
+- **Arquitectura**: 4 capas convolucionales seguidas de 4 capas lineales, y las 2 capas finales de actor y crítico.
+- **N-step Learning**: Utilización de `n=2` para un enfoque de 2 pasos en el aprendizaje.
+- **Prioritized Replay**: Uso de un buffer de replay con capacidad para 40,000 experiencias, permitiendo priorizar aquellas más relevantes para el aprendizaje.
+- **Estrategias de Recompensas**: Implementación de recompensas normalizadas utilizando un logaritmo en base 1000 para escalar los valores de manera efectiva.
+- **Noisy Networks**: Inclusión de ruido en todas las capas lineales con un `std=0.5` para promover la exploración.
+
+**insertar video**
+
 
 
