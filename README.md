@@ -41,7 +41,8 @@ Para utilizar el proyecto para entrenar o testear modelos, debes ejecutar el arc
 - `SAVE_MODEL_PATH`: Determina la ruta donde se guardará el modelo durante el entrenamiento.
 - `MODE`: Establece 'test' para visualización gráfica y evaluación del rendimiento o 'train' para entrenar el modelo.
 - `GRAPH_PATH`: Ruta donde se guardarán las gráficas de rendimiento del modelo.
-
+- `LEARNING_RATE`: valor que se le asignara como learning rate para entrenar al modelo.
+- `OPTIMIZER`: tipo de optimizador que se utilizara para entrenar al modelo ('adam' | 'sgd' | 'rmsprop' | 'adamw')
 Ejecuta el script desde la terminal con el siguiente comando:
 
 ```bash
@@ -57,6 +58,8 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 - **Prioritized Replay**: Uso de un buffer de replay con capacidad para 40,000 experiencias, permitiendo priorizar aquellas más relevantes para el aprendizaje.
 - **Estrategias de Recompensas**: Implementación de recompensas normalizadas utilizando un logaritmo en base 1000 para escalar los valores de manera efectiva.
 - **Noisy Networks**: Inclusión de ruido en todas las capas lineales con un `std=0.5` para promover la exploración.
+- **Learning rate**: Se ha utilizado un valor de 0.0001 como learning rate para entrenar al modelo
+- - **Optimizador**: Rellenar
 
 **insertar video**
 
