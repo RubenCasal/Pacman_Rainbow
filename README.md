@@ -41,8 +41,8 @@ Para utilizar el proyecto para entrenar o testear modelos, debes ejecutar el arc
 - `SAVE_MODEL_PATH`: Determina la ruta donde se guardará el modelo durante el entrenamiento.
 - `MODE`: Establece 'test' para visualización gráfica y evaluación del rendimiento o 'train' para entrenar el modelo.
 - `GRAPH_PATH`: Ruta donde se guardarán las gráficas de rendimiento del modelo.
-- `LEARNING_RATE`: valor que se le asignara como learning rate para entrenar al modelo.
-- `OPTIMIZER`: tipo de optimizador que se utilizara para entrenar al modelo ('adam' | 'sgd' | 'rmsprop' | 'adamw')
+- `LEARNING_RATE`: Valor que se le asignara como learning rate para entrenar al modelo.
+- `OPTIMIZER`: Tipo de optimizador que se utilizara para entrenar al modelo ('adam' | 'sgd' | 'rmsprop' | 'adamw')
 Ejecuta el script desde la terminal con el siguiente comando:
 
 ```bash
