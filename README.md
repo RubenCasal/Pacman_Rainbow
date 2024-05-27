@@ -17,6 +17,11 @@ El objetivo es realizar experimentaciones rigurosas para evaluar cómo cada comp
 
 ## Instalación
 Para ejecutar este proyecto, debes preparar un entorno virtual utilizando Anaconda con Python 3.8. Sigue los siguientes pasos para configurar el entorno e instalar todas las dependencias necesarias:
+1. **Abrir Visual Studio Code desde el navegador de Anaconda (Se debe tener instalado Anaconda)**
+2. **Clonar Repositorio**
+   ```bash
+      git clone https://github.com/RubenCasal/Pacman_Rainbow.git
+    ```
 
 1. **Crear un entorno virtual en Anaconda:**
    ```bash
