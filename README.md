@@ -73,6 +73,6 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 https://github.com/RubenCasal/Pacman_Rainbow/blob/experimentation-results/ReadMe%20files/2024-05-28%2013-06-32.mp4
 **insertar video**
 <iframe width="560" height="315" src="https://youtu.be/H2qEoiEt10Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+[![Demo Doccou alpha](https://github.com/RubenCasal/Pacman_Rainbow/blob/experimentation-results/ReadMe%20files/log_reward_gif.gif)](https://www.youtube.com/watch?v=H2qEoiEt10Q)
 
 
