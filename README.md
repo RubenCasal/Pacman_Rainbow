@@ -20,22 +20,23 @@ Para ejecutar este proyecto, debes preparar un entorno virtual utilizando Anacon
 1. **Abrir Visual Studio Code desde el navegador de Anaconda (Se debe tener instalado Anaconda)**
 
 <img src="/ReadMe files/tutorial instalacion.png"  width="600">
+
 2. **Clonar Repositorio**
 
    ```bash
       git clone https://github.com/RubenCasal/Pacman_Rainbow.git
     ```
 
-1. **Crear un entorno virtual en Anaconda:**
+3. **Crear un entorno virtual en Anaconda:**
    ```bash
         conda create -n myenv python=3.8
     ```
-2. **Activa el entorno virtual en Anaconda:**
+4. **Activa el entorno virtual en Anaconda:**
     ```bash
         conda activate myenv
     ```
 
-3. **Instala las dependencias necesarias que se encuentran en el archivo requirements.txt:**
+5. **Instala las dependencias necesarias que se encuentran en el archivo requirements.txt:**
      ```bash
     pip install -r requirements.txt
     ```
