@@ -69,9 +69,9 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 - **Learning rate**: Se ha utilizado un valor de 0.0001 como learning rate para entrenar al modelo
 - - **Optimizador**: Rellenar
 <img src="/ReadMe files/pacman_best_model_log.png" alt="Descripción de la imagen" width="600">
-<a href="/ReadMe files/log_rewards.mkv" download>Descargar el video</a>
 
-<iframe width="560" height="315" src="https://youtu.be/H2qEoiEt10Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 [![Demo Doccou alpha](https://github.com/RubenCasal/Pacman_Rainbow/blob/experimentation-results/ReadMe%20files/log_reward_gif.gif)](https://www.youtube.com/watch?v=H2qEoiEt10Q)
 
 
