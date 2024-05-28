@@ -18,6 +18,7 @@ El objetivo es realizar experimentaciones rigurosas para evaluar cómo cada comp
 ## Instalación
 Para ejecutar este proyecto, debes preparar un entorno virtual utilizando Anaconda con Python 3.8. Sigue los siguientes pasos para configurar el entorno e instalar todas las dependencias necesarias:
 1. **Abrir Visual Studio Code desde el navegador de Anaconda (Se debe tener instalado Anaconda)**
+<img src="/ReadMe files/tutorial instalacion.png"  width="600">
 2. **Clonar Repositorio**
    ```bash
       git clone https://github.com/RubenCasal/Pacman_Rainbow.git
@@ -65,6 +66,8 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 - **Noisy Networks**: Inclusión de ruido en todas las capas lineales con un `std=0.5` para promover la exploración.
 - **Learning rate**: Se ha utilizado un valor de 0.0001 como learning rate para entrenar al modelo
 - - **Optimizador**: Rellenar
+<img src="/ReadMe files/pacman_best_model_log.png" alt="Descripción de la imagen" width="600">
+<a href="/ReadMe files/log_rewards.mkv" download>Descargar el video</a>
 
 **insertar video**
 
