@@ -72,6 +72,7 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 <a href="/ReadMe files/log_rewards.mkv" download>Descargar el video</a>
 https://github.com/RubenCasal/Pacman_Rainbow/blob/experimentation-results/ReadMe%20files/2024-05-28%2013-06-32.mp4
 **insertar video**
+<iframe width="560" height="315" src="https://youtu.be/H2qEoiEt10Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 
