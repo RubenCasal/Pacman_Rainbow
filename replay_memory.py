@@ -7,7 +7,7 @@ class Replay_memory:
         self.buffer = deque(maxlen=capacity)
 
 
-    #add experience 
+    #Añadir Experiencia
     def add_experience(self,experience):
         
         self.buffer.append(experience)
