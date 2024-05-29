@@ -27,7 +27,7 @@ Para ejecutar este proyecto, debes preparar un entorno virtual utilizando Anacon
       git clone https://github.com/RubenCasal/Pacman_Rainbow.git
     ```
 
-3. **Crear un entorno virtual en Anaconda:**
+3. **Abrir consola CMD. Crear un entorno virtual en Anaconda:**
    ```bash
         conda create -n myenv python=3.8
     ```
