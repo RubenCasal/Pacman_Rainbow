@@ -74,7 +74,7 @@ class Neural_Network(nn.Module):
         torch.save(self.state_dict(), filename)
 
     def load_model(self, filename,device):
-        if device=='cpu':
-            self.load_state_dict(torch.load(filename, map_location=device))
+        if str(device)=='cpu':
+            self.load_state_dict(torch.load(filename, map_location=torch.device('cpu')))
         else:
             self.load_state_dict(torch.load(filename))
