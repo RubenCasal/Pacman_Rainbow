@@ -20,22 +20,23 @@ Para ejecutar este proyecto, debes preparar un entorno virtual utilizando Anacon
 1. **Abrir Visual Studio Code desde el navegador de Anaconda (Se debe tener instalado Anaconda)**
 
 <img src="/ReadMe files/tutorial instalacion.png"  width="600">
+
 2. **Clonar Repositorio**
 
    ```bash
       git clone https://github.com/RubenCasal/Pacman_Rainbow.git
     ```
 
-1. **Crear un entorno virtual en Anaconda:**
+3. **Crear un entorno virtual en Anaconda:**
    ```bash
         conda create -n myenv python=3.8
     ```
-2. **Activa el entorno virtual en Anaconda:**
+4. **Activa el entorno virtual en Anaconda:**
     ```bash
         conda activate myenv
     ```
 
-3. **Instala las dependencias necesarias que se encuentran en el archivo requirements.txt:**
+5. **Instala las dependencias necesarias que se encuentran en el archivo requirements.txt:**
      ```bash
     pip install -r requirements.txt
     ```
@@ -58,7 +59,7 @@ python main.py
 ```
 ## Resultados
 El rendimiento del modelo final alcanzado se puede ver en la siguiente gráfica, donde las líneas azules representan la puntuación alcanzada por el agente en un episodio determinado y la línea roja representa la media móvil de los últimos 100 episodios.
-**insertar gráfica**
+
 Tras diversas experimentaciones variando los distintos parámetros, hiperparámetros y arquitecturas del modelo, hemos identificado las configuraciones que ofrecen el mejor rendimiento para el algoritmo Rainbow DQN aplicado en el juego Ms Pacman:
 
 - **Arquitectura**: 4 capas convolucionales seguidas de 4 capas lineales, y las 2 capas finales de actor y crítico.
@@ -67,12 +68,12 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 - **Estrategias de Recompensas**: Implementación de recompensas normalizadas utilizando un logaritmo en base 1000 para escalar los valores de manera efectiva.
 - **Noisy Networks**: Inclusión de ruido en todas las capas lineales con un `std=0.5` para promover la exploración.
 - **Learning rate**: Se ha utilizado un valor de 0.0001 como learning rate para entrenar al modelo
-- - **Optimizador**: Rellenar
-<img src="/ReadMe files/pacman_best_model_log.png" alt="Descripción de la imagen" width="600">
-<a href="/ReadMe files/log_rewards.mkv" download>Descargar el video</a>
-https://github.com/RubenCasal/Pacman_Rainbow/blob/experimentation-results/ReadMe%20files/2024-05-28%2013-06-32.mp4
-**insertar video**
-<iframe width="560" height="315" src="https://youtu.be/H2qEoiEt10Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+- **Optimizador**: Se ha utilizado el optimizador Adam
+- **Episodios**: Se ha entrenado durante 12.000 episodios
+## Gráfica del entrenamiento
+<img src="/ReadMe files/pacman_best_model_log.png" alt="Descripción de la imagen" width="600"> 
 
+
+[![Demo Doccou alpha](https://github.com/RubenCasal/Pacman_Rainbow/blob/experimentation-results/ReadMe%20files/gif%20mejorado.gif)](https://www.youtube.com/watch?v=H2qEoiEt10Q)
 
 
