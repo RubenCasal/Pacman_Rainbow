@@ -3,7 +3,6 @@ import gymnasium as gym
 from collections import deque
 import random
 import numpy as np
-from Prioritized_Buffer_Replay import Prioritized_Buffer_Replay
 from Prioritized_replay import Prioritized_Replay
 
 
@@ -36,7 +35,7 @@ class RaimbowAgent():
             self.epsilon_decay = 0.9995
             self.epsilon_min = 0.1
             self.model = Neural_Network(self.state_size,self.action_size,self.learning_rate).to(device)
-            self.model.load_model(model_path)
+            self.model.load_model(model_path,self.device)
 
 
         else:
