@@ -76,6 +76,8 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 <img src="/ReadMe files/pacman_best_model_log.png" alt="Descripción de la imagen" width="600"> 
 
  **Pincha aquí para ver el video completo**
+
+ 
 [![Demo Doccou alpha](https://github.com/RubenCasal/Pacman_Rainbow/blob/main/ReadMe%20files/gif%20mejorado.gif)](https://www.youtube.com/watch?v=H2qEoiEt10Q)
 
 
