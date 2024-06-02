@@ -51,6 +51,8 @@ Para utilizar el proyecto para entrenar o testear modelos, debes ejecutar el arc
 - `MODE`: Establece 'test' para visualización gráfica y evaluación del rendimiento o 'train' para entrenar el modelo.
 - `GRAPH_PATH`: Ruta donde se guardarán las gráficas de rendimiento del modelo.
 - `LEARNING_RATE`: Valor que se le asignara como learning rate para entrenar al modelo.
+- `EPISODES_TRAIN`: Número de episodios por los que se entrenara el modelo.
+- `BUFFER_SIZE`: Cantidad de transiciones que será capaz de almacenar el buffer del Prioritized Experience Replay.
 - `OPTIMIZER`: Tipo de optimizador que se utilizara para entrenar al modelo ('adam' | 'sgd' | 'rmsprop' | 'adamw')
 Ejecuta el script desde la terminal con el siguiente comando:
 
