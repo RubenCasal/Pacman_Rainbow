@@ -13,7 +13,7 @@ Este proyecto forma parte de un Trabajo de Fin de Grado y se centra en la implem
 - N-step Learning
 
 ## Objetivo del Proyecto
-El objetivo es realizar experimentaciones rigurosas para evaluar cómo cada componente impacta en el rendimiento del algoritmo. Se busca comprender a fondo el funcionamiento de Rainbow DQN en un entorno de juego desafiante y determinar la contribución de cada mejora al rendimiento general del sistema. Este estudio no solo ampliará el conocimiento sobre la eficacia de Rainbow DQN, sino que también proporcionará una valiosa exploración de métodos avanzados de aprendizaje automático aplicados en contextos de juegos complejos.
+El objetivo es realizar experimentaciones rigurosas para evaluar cómo cada componente impacta en el rendimiento del algoritmo. Se busca comprender a fondo el funcionamiento de Rainbow DQN en un entorno de juego desafiante y determinar la contribución de cada mejora al rendimiento general del sistema. Este estudio no solo ampliará el conocimiento sobre la eficacia de Rainbow DQN, sino que también proporcionará una valiosa exploración de métodos avanzados de aprendizaje automático aplicados en contextos de juegos complejos. La documentación de este proyecto se encuentra en el archivo llamado Aprendizaje por Refuerzo con Rainbow DQN en formato pdf [Aprendizaje por Refuerzo con Rainbow DQN](./ReadMe%20files/Aprendizaje%20por%20Refuerzo%20con%20Rainbow%20DQN.pdf).
 
 ## Instalación
 Para ejecutar este proyecto, debes preparar un entorno virtual utilizando Anaconda con Python 3.8. Sigue los siguientes pasos para configurar el entorno e instalar todas las dependencias necesarias:
@@ -51,6 +51,8 @@ Para utilizar el proyecto para entrenar o testear modelos, debes ejecutar el arc
 - `MODE`: Establece 'test' para visualización gráfica y evaluación del rendimiento o 'train' para entrenar el modelo.
 - `GRAPH_PATH`: Ruta donde se guardarán las gráficas de rendimiento del modelo.
 - `LEARNING_RATE`: Valor que se le asignara como learning rate para entrenar al modelo.
+- `EPISODES_TRAIN`: Número de episodios por los que se entrenara el modelo.
+- `BUFFER_SIZE`: Cantidad de transiciones que será capaz de almacenar el buffer del Prioritized Experience Replay.
 - `OPTIMIZER`: Tipo de optimizador que se utilizara para entrenar al modelo ('adam' | 'sgd' | 'rmsprop' | 'adamw')
 Ejecuta el script desde la terminal con el siguiente comando:
 
@@ -73,7 +75,7 @@ Tras diversas experimentaciones variando los distintos parámetros, hiperparáme
 ## Gráfica del entrenamiento
 <img src="/ReadMe files/pacman_best_model_log.png" alt="Descripción de la imagen" width="600"> 
 
-
-[![Demo Doccou alpha](https://github.com/RubenCasal/Pacman_Rainbow/blob/experimentation-results/ReadMe%20files/gif%20mejorado.gif)](https://www.youtube.com/watch?v=H2qEoiEt10Q)
+ **Pincha aquí para ver el video completo**
+[![Demo Doccou alpha](https://github.com/RubenCasal/Pacman_Rainbow/blob/main/ReadMe%20files/gif%20mejorado.gif)](https://www.youtube.com/watch?v=H2qEoiEt10Q)
 
 
