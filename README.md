@@ -13,7 +13,7 @@ Este proyecto forma parte de un Trabajo de Fin de Grado y se centra en la implem
 - N-step Learning
 
 ## Objetivo del Proyecto
-El objetivo es realizar experimentaciones rigurosas para evaluar cómo cada componente impacta en el rendimiento del algoritmo. Se busca comprender a fondo el funcionamiento de Rainbow DQN en un entorno de juego desafiante y determinar la contribución de cada mejora al rendimiento general del sistema. Este estudio no solo ampliará el conocimiento sobre la eficacia de Rainbow DQN, sino que también proporcionará una valiosa exploración de métodos avanzados de aprendizaje automático aplicados en contextos de juegos complejos.
+El objetivo es realizar experimentaciones rigurosas para evaluar cómo cada componente impacta en el rendimiento del algoritmo. Se busca comprender a fondo el funcionamiento de Rainbow DQN en un entorno de juego desafiante y determinar la contribución de cada mejora al rendimiento general del sistema. Este estudio no solo ampliará el conocimiento sobre la eficacia de Rainbow DQN, sino que también proporcionará una valiosa exploración de métodos avanzados de aprendizaje automático aplicados en contextos de juegos complejos. La documentación de este proyecto se encuentra en el archivo llamado Aprendizaje por Refuerzo con Rainbow DQN en formato pdf.
 
 ## Instalación
 Para ejecutar este proyecto, debes preparar un entorno virtual utilizando Anaconda con Python 3.8. Sigue los siguientes pasos para configurar el entorno e instalar todas las dependencias necesarias:
