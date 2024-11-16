@@ -7,8 +7,6 @@ Este proyecto forma parte de un Trabajo de Fin de Grado y se centra en la implem
 
 Rainbow DQN combina múltiples mejoras sobre el algoritmo básico DQN (Deep Q-Network), integrando características avanzadas que optimizan el rendimiento en entornos complejos. A continuación, se describen detalladamente los componentes que forman parte de Rainbow DQN:
 
----
-
 ### **1. Double DQN (DDQN)**
 
 Double DQN aborda el problema de la sobreestimación de valores Q presente en el DQN estándar. En este caso, se utilizan dos redes diferentes:
@@ -17,7 +15,6 @@ Double DQN aborda el problema de la sobreestimación de valores Q presente en el
 
 Esto reduce significativamente el sesgo en las estimaciones y mejora la estabilidad del entrenamiento. Double DQN mejora la precisión de las predicciones y evita decisiones subóptimas basadas en estimaciones sesgadas.
 
----
 
 ### **2. Prioritized Experience Replay**
 
@@ -25,7 +22,6 @@ Este componente asigna una prioridad a cada transición almacenada en el buffer 
 
 Esto permite al agente centrarse en experiencias críticas que tienen un impacto significativo en el aprendizaje, mejorando la eficiencia general del algoritmo.
 
----
 
 ### **3. Dueling Networks**
 
@@ -34,13 +30,11 @@ Dueling Networks separa el cálculo del valor del estado y la ventaja de cada ac
 - La ventaja de la acción (\(A(s, a)\)), que indica la contribución específica de una acción en ese estado.
 
 La función Q final se calcula como:
-\[
-Q(s, a) = V(s) + A(s, a) - \frac{1}{|A|} \sum_{a'} A(s, a')
-\]
+Q(s, a) = V(s) + A(s, a) - (1 / |A|) * Σ A(s, a')
+
 
 Este enfoque mejora la capacidad del modelo para distinguir entre estados importantes y acciones irrelevantes, aumentando el rendimiento en entornos donde algunas acciones tienen poco impacto.
 
----
 
 ### **4. Multi-step Learning**
 
@@ -48,7 +42,6 @@ El aprendizaje multi-step extiende el enfoque estándar de 1-step TD Learning (T
 
 Este enfoque captura información más rica sobre las recompensas futuras, proporcionando un balance más efectivo entre sesgo y varianza.
 
----
 
 ### **5. Distributional DQN**
 
@@ -56,21 +49,18 @@ Distributional DQN utiliza una representación probabilística de los valores Q,
 
 La inclusión de distribuciones mejora la estabilidad del entrenamiento y permite una representación más robusta de las recompensas futuras, lo que contribuye a un mejor rendimiento general del agente.
 
----
 
 ### **6. Noisy Networks**
 
 Las Noisy Networks introducen ruido en los pesos de las capas lineales de la red para fomentar la exploración durante el aprendizaje. Este enfoque sustituye las capas determinísticas por capas que incluyen ruido paramétrico, lo que permite al agente explorar de manera más eficiente.
 
-La adición de ruido reduce la dependencia de estrategias de exploración como \(\epsilon\)-greedy y promueve una exploración dirigida hacia regiones prometedoras del espacio de estados.
+La adición de ruido reduce la dependencia de estrategias de exploración como epsilon-greedy y promueve una exploración dirigida hacia regiones prometedoras del espacio de estados.
 
----
 
 ### **7. N-step Learning**
 
-N-step Learning utiliza transiciones que incluyen \(n\)-pasos futuros en el cálculo de las recompensas acumuladas. Este enfoque combina información a corto y largo plazo, mejorando la calidad de las predicciones y la capacidad del modelo para capturar dependencias temporales complejas.
+N-step Learning utiliza transiciones que incluyen n-pasos futuros en el cálculo de las recompensas acumuladas. Este enfoque combina información a corto y largo plazo, mejorando la calidad de las predicciones y la capacidad del modelo para capturar dependencias temporales complejas.
 
----
 
 Cada uno de estos componentes aporta una mejora específica al algoritmo DQN original. Combinados, hacen de Rainbow DQN una solución robusta, eficiente y altamente efectiva para resolver problemas complejos en entornos como los juegos de Atari.
 
