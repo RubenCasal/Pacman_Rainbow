@@ -26,8 +26,8 @@ Esto permite al agente centrarse en experiencias críticas que tienen un impacto
 ### **3. Dueling Networks**
 
 Dueling Networks separa el cálculo del valor del estado y la ventaja de cada acción. La función Q se descompone en dos componentes:
-- El valor del estado (\(V(s)\)), que representa lo "bueno" que es estar en un estado particular.
-- La ventaja de la acción (\(A(s, a)\)), que indica la contribución específica de una acción en ese estado.
+- El valor del estado V(s), que representa lo "bueno" que es estar en un estado particular.
+- La ventaja de la acción A(s, a), que indica la contribución específica de una acción en ese estado.
 
 La función Q final se calcula como:
 Q(s, a) = V(s) + A(s, a) - (1 / |A|) * Σ A(s, a')
